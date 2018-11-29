@@ -3,7 +3,7 @@ $(document).ready(function() {
     $('#example2').DataTable();
     $('#example3').DataTable();
     // delete a record fromtable list
-    $('.ttraccker_del_btn').
+    
     $('#ttracker_form').validate({
         submitHandler: function() {
             // save our hours and minutes and catgeries into variable data
