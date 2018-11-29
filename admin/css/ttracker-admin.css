@@ -1,0 +1,60 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+#ttracker_form label.error {
+    color: #A40303;
+}
+
+.list_cat {
+    font-size: 1.5em;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 100%;
+    background-color: #2C9DD2;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    padding: 10px;
+    color: #FFFFFF;
+}
+
+.list_cat1 {
+    max-width: 50%;
+
+
+}
+
+.list_cat2 {
+    max-width: 50%;
+}
+
+hr {
+
+    border: none;
+    border-left: 1px solid #FEFEFE;
+    height: 6vh;
+    width: 1px;
+}
+
+.titlem {
+    text-align: center;
+    margin: 0 auto;
+    background-color: #A4D0F5;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 2em;
+    color: #197C3C;
+    max-width: 450px;
+
+}
+
+.panel-heading {
+    text-align: center;
+    font-size: 1.5em;
+}
+
+#btncen {
+	display: flex;
+    align-items: center;
+    justify-content: center;
+}
