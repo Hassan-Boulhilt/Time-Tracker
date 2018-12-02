@@ -29,3 +29,5 @@
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
+require_once plugin_dir_path( __FILE__ ) . 'class-ttracker-database.php';
+timetracker_remove_table();

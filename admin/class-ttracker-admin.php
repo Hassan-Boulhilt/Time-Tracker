@@ -185,14 +185,14 @@ class Ttracker_Admin {
 	// Ajax handler for submit form
 	public function ttracker_ajax_handler(){
 	
-			// check nonce
-	        check_ajax_referer('my_nonce');
-	         // Global daatabase parametres
+			
+	                // Global daatabase parametres
 			global $wpdb;
 			$table_name = $wpdb->prefix.'ttracker';		
 			$param = isset($_REQUEST['param']) ? $_REQUEST['param'] : "";
 				if(!empty($param) && $param == "save_data"){
-
+                                                // check nonce
+	                                        check_ajax_referer('my_nonce');
 					// retrieve data from $_request
 
 					$minutes = isset($_REQUEST['minutes']) ? $_REQUEST['minutes'] : "";
@@ -218,7 +218,32 @@ class Ttracker_Admin {
 				    		"message" => "Failed to insert values!"
 				    	));
 				    }		
-			    }
+			    }elseif(!empty($param) && $param == "delete_record" ){
+                                
+                                $data_main = isset($_REQUEST['id'])?intval($_REQUEST['id']):0;
+                                
+                                $is_exists = $wpdb->get_row(
+                                        $wpdb->prepare(
+                                                "SELECT * FROM $table_name WHERE main = %d",$data_main
+                                                ),ARRAY_A
+                                        );
+                                if(!empty($is_exists)){
+                                     
+                                    $wpdb->delete($table_name,array(
+                                        "main" => $data_main
+                                          
+                                            
+                                    ));
+                                    echo json_encode(array(
+				    		"status"  => 1,
+				    		"message" => "Record has deleted succefully"));
+                                }else{
+                                    echo json_encode(array(
+				    		"status" => 0,
+				    		"message" => "No Record Found!"
+				    	));
+                                }
+                            }
 		    wp_die();
 	}
 	/*public function ttracker_cat_ajax_handler(){

@@ -32,8 +32,7 @@ class Ttracker_Deactivator {
 	 */
 
 	public static function deactivate() {
-		require_once plugin_dir_path( __FILE__ ) . 'class-ttracker-database.php';
-		timetracker_remove_table();
+		flush_rewrite_rules();
 	}
 
 }

@@ -30,6 +30,8 @@ function ttracker_display_page() {
 		
 	    
         <?php ttracker_get_total_minutes();?><br />
+        
+     
 
                                           <!--<select name="list_cat2" id="list_cat2">
                                           
@@ -50,16 +52,16 @@ function ttracker_display_page() {
                     
                     echo'<div class ="list_cat">';	
 	                    echo'<div class ="list_cat1">';	
-							echo "<div>";esc_html__(ttracker_get_total_minutes_cat('Category A'));echo "</div>";
-							echo "<div>";esc_html__(ttracker_get_total_minutes_cat('Category B'));echo "</div>";
-							echo "<div>";esc_html__(ttracker_get_total_minutes_cat('Category C'));echo "</div>";
+							echo "<div>";esc_html__(ttracker_get_total_minutes_cat_month('Category A'));echo "</div>";
+							echo "<div>";esc_html__(ttracker_get_total_minutes_cat_month('Category B'));echo "</div>";
+							echo "<div>";esc_html__(ttracker_get_total_minutes_cat_month('Category C'));echo "</div>";
 							
 						echo'</div>';
 						echo'<hr>';
 						echo'<div class ="list_cat2">';
-						    echo "<div>";esc_html__(ttracker_get_total_minutes_cat('Category D'));echo "</div>";
-							echo "<div>";esc_html__(ttracker_get_total_minutes_cat('Category E'));echo "</div>";
-							echo "<div>";esc_html__(ttracker_get_total_minutes_cat('Category F'));echo "</div>";
+						    echo "<div>";esc_html__(ttracker_get_total_minutes_cat_month('Category D'));echo "</div>";
+							echo "<div>";esc_html__(ttracker_get_total_minutes_cat_month('Category E'));echo "</div>";
+							echo "<div>";esc_html__(ttracker_get_total_minutes_cat_month('Category F'));echo "</div>";
 							
 						echo'</div>';
                     echo'</div>';
@@ -258,6 +260,7 @@ function ttracker_display_page() {
             global $wpdb;
             $table = $wpdb->prefix.'ttracker';
             $total_records = $wpdb->get_results("SELECT * FROM $table Order by main desc",ARRAY_A);
+            
             if(count($total_records) > 0){
             	foreach ($total_records as $key => $value){
             		?>
@@ -266,7 +269,8 @@ function ttracker_display_page() {
 		                <td><?php echo $value['categories']?></td>
 		                <td><?php echo sprintf("%02d", floor($value['minutes']/60))." h : ".sprintf("%02d",($value['minutes']%60))." m"?>&nbsp;&nbsp;<?php echo"(". $value['minutes']." m)" ?></td>
 		                <td><?php echo $value['created_at']?></td>
-		                <td id="btncen"><a href="#" class="btn btn-primary">Edit</a>&nbsp;&nbsp;&nbsp;<a href="#"class="btn btn-danger ttraccker_del_btn" data-id="<?php echo $value['main']; ?>">Delete</a></td>	                
+                                
+		                <td id="btncen"><a href="#" class="btn btn-primary">Edit</a>&nbsp;&nbsp;&nbsp;<a href="#"class="btn btn-danger ttraccker_del_btn" data-id="<?php echo $value['main'];?>">Delete</a></td>	                
 	                </tr>
             		<?php
                 }
@@ -333,6 +337,22 @@ function ttracker_get_total_minutes_cat($cat) {
 		WHERE categories = %s
 	", 
 	$cat) );
+
+	// display the results
+
+	if ( null !== $results ) {		
+		esc_html_e("$cat: ".$results." minutes.");
+	} else {
+		esc_html_e($cat.': No Records Yet.');
+	}
+}
+function ttracker_get_total_minutes_cat_month($cat) {
+     
+	global $wpdb;
+	$table = $wpdb->prefix.'ttracker';
+        
+	$results = $wpdb->get_var( $wpdb->prepare( 
+	"SELECT sum(minutes)FROM $table WHERE categories = %s and MONTH(created_at) = MONTH( CURRENT_DATE )", $cat));
 
 	// display the results
 

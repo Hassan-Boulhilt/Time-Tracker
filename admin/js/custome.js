@@ -3,7 +3,26 @@ $(document).ready(function() {
     $('#example2').DataTable();
     $('#example3').DataTable();
     // delete a record fromtable list
-    
+   $('.ttraccker_del_btn').on("click",function(){
+      var conf = confirm("Are you sure want to delete?");
+      if(conf){// true
+           var datamain = $(this).attr("data-id");
+       //console.log(datamain);
+       var postdata = "action=ttracker_request&param=delete_record&id="+datamain;
+       ($).post(ttracker_ajax_url,postdata,function(response){
+           var data_res = $.parseJSON(response);
+           if(data_res.status == 1){
+               alert(data_res.message);
+               setTimeout(function(){
+                   location.reload();
+               },1000);
+           }
+       });
+          
+      }else{
+          alert(data_res.msg);
+      }
+   });
     $('#ttracker_form').validate({
         submitHandler: function() {
             // save our hours and minutes and catgeries into variable data
